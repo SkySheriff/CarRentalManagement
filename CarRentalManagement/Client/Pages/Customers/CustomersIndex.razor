@@ -26,7 +26,7 @@ else
             @foreach (var customer in Customers)
             {
              <tr>
-                <td>@customer.Name</td>
+                <td>@customer.DrivingLicense</td>
                 <td>
                     <a href="/customers/view/@customer.Id" class="btn btn-primary">
                         <span class="oi oi-book"></span>
@@ -45,22 +45,22 @@ else
 }
 
 @code {
-    private List<Make>? Customers;
+    private List<Customer>? Customers;
 
     protected async override Task OnInitializedAsync()
     {
-        Customers = await _client.GetFromJsonAsync<List<Make >>($"{Endpoints.CustomersEndpoint}");
+        Customers = await _client.GetFromJsonAsync<List<Customer>>($"{Endpoints.CustomersEndpoint}");
     }
 
-    async Task Delete(int makeId)
+    async Task Delete(int customerId)
     {
         if (Customers != null)
         {
-            var make = Customers.First(q => q.Id == makeId);
-            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {make.Name}?");
+            var customer = Customers.First(q => q.Id == customerId);
+            var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {customer.DrivingLicense}?");
             if (confirm)
             {
-                await _client.DeleteAsync($"{Endpoints.CustomersEndpoint}/{makeId}");
+                await _client.DeleteAsync($"{Endpoints.CustomersEndpoint}/{customerId}");
                 await OnInitializedAsync();
             }
         }

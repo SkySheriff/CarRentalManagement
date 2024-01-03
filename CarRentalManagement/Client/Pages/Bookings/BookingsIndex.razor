@@ -3,12 +3,12 @@
 @inject IJSRuntime js
 @attribute [Authorize]
 
-<h3 class="card-title">Car Booking</h3>
+<h3 class="card-title">Car Bookings</h3>
 <br/>
 
 @if (Bookings == null)
 {
-    <div class="alert alert-info">Loading Booking...</div>
+    <div class="alert alert-info">Loading Bookings...</div>
 }
 
 else
@@ -45,7 +45,7 @@ else
 
     protected async override Task OnInitializedAsync()
     {
-        Bookings = await _client.GetFromJsonAsync<List<Booking>>($"{Endpoints.CustomersEndpoint}");
+        Bookings = await _client.GetFromJsonAsync<List<Booking>>($"{Endpoints.BookingsEndpoint}");
     }
 
     async Task Delete(int bookingId)
@@ -56,7 +56,7 @@ else
             var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {booking.Id}?");
             if (confirm)
             {
-                await _client.DeleteAsync($"{Endpoints.CustomersEndpoint}/{bookingId}");
+                await _client.DeleteAsync($"{Endpoints.BookingsEndpoint}/{bookingId}");
                 await OnInitializedAsync();
             }
         }

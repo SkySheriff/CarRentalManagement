@@ -50,15 +50,15 @@ else
         Colours = await _client.GetFromJsonAsync<List<Colour >>($"{Endpoints.ColoursEndpoint}");
     }
 
-    async Task Delete(int makeId)
+    async Task Delete(int colourId)
     {
         if (Colours != null)
         {
-            var colour = Colours.First(q => q.Id == makeId);
+            var colour = Colours.First(q => q.Id == colourId);
             var confirm = await js.InvokeAsync<bool>("confirm", $"Do you want to delete {colour.Name}?");
             if (confirm)
             {
-                await _client.DeleteAsync($"{Endpoints.ColoursEndpoint}/{makeId}");
+                await _client.DeleteAsync($"{Endpoints.ColoursEndpoint}/{colourId}");
                 await OnInitializedAsync();
             }
         }
